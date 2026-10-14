@@ -1,42 +1,36 @@
-
-name: Build and Deploy Next.js to Firebase
+name: Deploy to Firebase Hosting
 
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
+      - main # Change if your default branch is different (e.g., master)
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: '20' # Match your local Node version
+          cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build Next.js static site
+      - name: Build Static Export
         run: npm run build
-
-      - name: Verify static output
-        run: test -f out/index.html
+        env:
+          # Add any NEXT_PUBLIC_* environment variables here if needed
+          # NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: 'your-firebase-project-id'
           channelId: live
-          projectId: YOUR_FIREBASE_PROJECT_ID
