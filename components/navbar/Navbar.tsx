@@ -56,7 +56,7 @@ export default function Navbar() {
                 variant="secondary"
                 className="text-sm md:text-base lg:text-lg text-primary font-bold hover:cursor-pointer transition hover:scale-105"
               >
-                Register
+                Get Started
               </Button>
             </Link>
           </div>
