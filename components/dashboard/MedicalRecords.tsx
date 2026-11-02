@@ -60,8 +60,8 @@ export default function MedicalRecords() {
           dateUploaded: r.uploaded_at
             ? new Date(r.uploaded_at).toLocaleDateString()
             : r.created_at
-            ? new Date(r.created_at).toLocaleDateString()
-            : "",
+              ? new Date(r.created_at).toLocaleDateString()
+              : "",
           doctorOrIssuer: r.doctor_or_issuer ?? r.issuer ?? "",
           notes: r.notes ?? "",
         }));
@@ -118,8 +118,8 @@ export default function MedicalRecords() {
           dateUploaded: r.uploaded_at
             ? new Date(r.uploaded_at).toLocaleDateString()
             : r.created_at
-            ? new Date(r.created_at).toLocaleDateString()
-            : "",
+              ? new Date(r.created_at).toLocaleDateString()
+              : "",
           doctorOrIssuer: r.doctor_or_issuer ?? r.issuer ?? "",
           notes: r.notes ?? "",
         }));
@@ -138,7 +138,7 @@ export default function MedicalRecords() {
     }
   };
 
-  console.log(documents , "docs")
+  console.log(documents, "docs")
 
   const handleDelete = async (id: string) => {
     try {
@@ -176,7 +176,7 @@ export default function MedicalRecords() {
     return matchesCategory && matchesSearch;
   });
 
-  console.log(filteredDocuments , "filtered docs")
+  console.log(filteredDocuments, "filtered docs")
 
   return (
     <SidebarProvider>
@@ -215,9 +215,9 @@ export default function MedicalRecords() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-8 space-y-6 max-w-6xl mx-auto w-full">
+        <main className="flex-1 p-4 md:p-4 space-y-6 max-w-6xl mx-auto w-full">
           {/* Documents Container */}
-          <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-all">
+          <div className="bg-white shadow-sm overflow-hidden transition-all">
             {/* Top Action Header: Title + Upload Document Button */}
             <div className="p-5 md:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
@@ -242,7 +242,7 @@ export default function MedicalRecords() {
               {/* Single Unified Upload Document Button */}
               <button
                 onClick={() => setIsUploadModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs md:text-sm shadow-sm hover:shadow transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs md:text-sm shadow-sm hover:shadow transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
               >
                 <UploadCloud className="size-4" />
                 Upload Document
@@ -257,11 +257,10 @@ export default function MedicalRecords() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                      activeCategory === cat
-                        ? "bg-teal-600 text-white shadow-xs"
-                        : "text-slate-500 hover:text-slate-800"
-                    }`}
+                    className={`px-4 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${activeCategory === cat
+                      ? "bg-teal-600 text-white shadow-xs"
+                      : "text-slate-500 hover:text-slate-800"
+                      }`}
                   >
                     {cat}
                   </button>
@@ -276,7 +275,7 @@ export default function MedicalRecords() {
                   placeholder="Search by file name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9.5 pr-4 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/15 transition-all text-slate-800 placeholder:text-slate-400 shadow-2xs"
+                  className="w-full pl-9.5 pr-4 py-2 text-xs border border-slate-200 bg-white focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/15 transition-all text-slate-800 placeholder:text-slate-400 shadow-2xs"
                 />
               </div>
             </div>
@@ -413,11 +412,10 @@ export default function MedicalRecords() {
                         key={cat}
                         type="button"
                         onClick={() => setNewCategory(cat)}
-                        className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
-                          newCategory === cat
-                            ? "border-teal-600 bg-teal-50/80 text-teal-800 shadow-2xs"
-                            : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                        }`}
+                        className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${newCategory === cat
+                          ? "border-teal-600 bg-teal-50/80 text-teal-800 shadow-2xs"
+                          : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                          }`}
                       >
                         {cat}
                       </button>
@@ -441,11 +439,10 @@ export default function MedicalRecords() {
                       setNewFileName(file.name);
                     }
                   }}
-                  className={`border-2 border-dashed rounded-2xl p-5 text-center transition-all cursor-pointer ${
-                    isDragging
-                      ? "border-teal-500 bg-teal-50/40"
-                      : "border-slate-200 bg-slate-50/40 hover:bg-slate-50 hover:border-slate-300"
-                  }`}
+                  className={`border-2 border-dashed rounded-2xl p-5 text-center transition-all cursor-pointer ${isDragging
+                    ? "border-teal-500 bg-teal-50/40"
+                    : "border-slate-200 bg-slate-50/40 hover:bg-slate-50 hover:border-slate-300"
+                    }`}
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <input

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import {
   BrainCircuit,
-  CalendarDays,
   ClipboardList,
   LayoutDashboard,
   LogOut,
@@ -49,11 +48,6 @@ const navItems = [
     title: "Medical Records",
     href: "/dashboard/MedicalRecords",
     icon: ClipboardList,
-  },
-  {
-    title: "Appointments",
-    href: "/dashboard/appointments",
-    icon: CalendarDays,
   },
   {
     title: "Settings",
