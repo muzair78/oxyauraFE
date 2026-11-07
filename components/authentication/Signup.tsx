@@ -8,6 +8,7 @@ import logo from "@/public/images/oxyauraai_svg_logo.svg";
 import plainBgAuth from "@/public/images/plainBgAuth.jpg";
 import api from "@/lib/api";
 import { saveAuth, isAuthenticated, type AuthData } from "@/lib/auth";
+import { toast } from "react-toastify";
 
 /* ─────────────────────────── Types ─────────────────────────── */
 
@@ -102,10 +103,7 @@ function SignupForm() {
         email: formData.email,
         password: formData.password,
       };
-      const response = await api.post(
-        "/auth/signup",
-        payload,
-      );
+      const response = await api.post("/auth/signup", payload);
       console.log("Signup response:", response.data);
       setIsSuccess(true);
     } catch (err: any) {
@@ -114,6 +112,25 @@ function SignupForm() {
         err?.response?.data?.detail ||
         err?.response?.data?.message ||
         "Something went wrong. Please try again.";
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light", // Change to "dark" if your app uses dark mode
+        style: {
+          borderRadius: "12px",
+          background: "#ffffff",
+          color: "#334155",
+          fontSize: "14px",
+          fontWeight: "500",
+          boxShadow:
+            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        },
+      });
       setErrors({ general: errorMessage });
     } finally {
       setIsLoading(false);
@@ -169,7 +186,7 @@ function SignupForm() {
       <div className="flex flex-col gap-0.5">
         <label
           htmlFor="signup-name"
-          className="text-xs font-bold text-gray-700"
+          className="text-sm font-bold text-gray-700"
         >
           Name
         </label>
@@ -180,7 +197,7 @@ function SignupForm() {
           value={formData.name}
           onChange={handleChange}
           placeholder="Enter your name"
-          className={`h-8.5 rounded-md border bg-white px-3 text-xs outline-none transition ${
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
             errors.name
               ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
               : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -200,7 +217,7 @@ function SignupForm() {
       <div className="flex flex-col gap-0.5">
         <label
           htmlFor="signup-email"
-          className="text-xs font-bold text-gray-700"
+          className="text-sm font-bold text-gray-700"
         >
           Email
         </label>
@@ -211,7 +228,7 @@ function SignupForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className={`h-8.5 rounded-md border bg-white px-3 text-xs outline-none transition ${
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
             errors.email
               ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
               : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -233,7 +250,7 @@ function SignupForm() {
         <div className="flex flex-col gap-0.5 flex-1 min-w-0">
           <label
             htmlFor="signup-password"
-            className="text-xs font-bold text-gray-700"
+            className="text-sm font-bold text-gray-700"
           >
             Password
           </label>
@@ -245,7 +262,7 @@ function SignupForm() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Min. 6 characters"
-              className={`h-8.5 w-full rounded-md border bg-white pl-3 pr-8 text-xs outline-none transition ${
+              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
                 errors.password
                   ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
                   : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -279,7 +296,7 @@ function SignupForm() {
         <div className="flex flex-col gap-0.5 flex-1 min-w-0">
           <label
             htmlFor="signup-confirm-password"
-            className="text-xs font-bold text-gray-700"
+            className="text-sm font-bold text-gray-700"
           >
             Confirm Password
           </label>
@@ -291,7 +308,7 @@ function SignupForm() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Confirm password"
-              className={`h-8.5 w-full rounded-md border bg-white pl-3 pr-8 text-xs outline-none transition ${
+              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
                 errors.confirmPassword
                   ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
                   : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -329,11 +346,11 @@ function SignupForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="mt-1 h-9 w-full rounded-md bg-[#008B8B] text-white font-semibold text-xs transition hover:bg-[#007777] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+        className="mt-1 h-9 w-full bg-[#008B8B] text-white font-semibold text-xs transition hover:bg-[#007777] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
       >
         {isLoading ? (
           <>
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white/30 border-t-white" />
             <span>Creating Account...</span>
           </>
         ) : (
@@ -377,10 +394,7 @@ function SigninForm() {
     setIsLoading(true);
     setErrors({});
     try {
-      const response = await api.post<AuthData>(
-        "/auth/signin",
-        formData,
-      );
+      const response = await api.post<AuthData>("/auth/signin", formData);
       saveAuth(response.data);
       router.replace("/dashboard");
     } catch (err: any) {
@@ -414,7 +428,7 @@ function SigninForm() {
       <div className="flex flex-col gap-1">
         <label
           htmlFor="signin-email"
-          className="text-xs md:text-md font-bold text-gray-700"
+          className="text-sm font-bold text-gray-700"
         >
           Email
         </label>
@@ -425,7 +439,7 @@ function SigninForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className={`h-8.5 rounded-md border bg-white px-3 text-xs outline-none transition ${
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
             errors.email
               ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
               : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -446,13 +460,13 @@ function SigninForm() {
         <div className="flex items-center justify-between">
           <label
             htmlFor="signin-password"
-            className="text-xs md:text-md font-bold text-gray-700"
+            className="text-sm font-bold text-gray-700"
           >
             Password
           </label>
           <button
             type="button"
-            className="text-[11px] md:text-md text-[#008B8B] hover:underline font-medium hover:cursor-pointer"
+            className="text-sm text-[#008B8B] hover:underline font-medium hover:cursor-pointer"
           >
             Forgot password?
           </button>
@@ -465,7 +479,7 @@ function SigninForm() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter your password"
-            className={`h-8.5 w-full rounded-md border bg-white pl-3 pr-8 text-xs outline-none transition ${
+            className={`h-8.5 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
               errors.password
                 ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
                 : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
@@ -498,7 +512,7 @@ function SigninForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="mt-1 h-9 w-full rounded-md bg-[#008B8B] text-white font-semibold text-xs transition hover:bg-[#007777] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+        className="mt-1 h-9 w-full  bg-[#008B8B] text-white font-semibold text-sm transition hover:bg-[#007777] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
       >
         {isLoading ? (
           <>
@@ -537,24 +551,25 @@ export default function Signup() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="bg-zinc-100 border border-gray-200 shadow-md rounded-xl w-full max-w-md my-auto flex flex-col overflow-hidden">
+      <div className="w-full max-w-lg my-auto flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        {" "}
         <div className="flex flex-col justify-center items-center py-3.5 px-6 sm:px-8">
           {/* Logo */}
           <div className="mb-6">
             <Image
               src={logo}
               alt="Oxyaura AI Logo"
-              width={95}
-              height={95}
+              width={96}
+              height={96}
               priority
             />
           </div>
 
           {/* Tab Switcher */}
-          <div className="relative w-full flex bg-gray-200/80 rounded-lg p-1 mb-3">
+          <div className="relative w-full flex bg-gray-200/80  p-1 mb-3">
             {/* Animated sliding pill */}
             <div
-              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-md bg-[#008B8B] shadow-sm transition-all duration-300 ease-in-out hover:cursor-pointer"
+              className="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#008B8B] shadow-sm transition-all duration-300 ease-in-out hover:cursor-pointer"
               style={{ left: activeTab === "signin" ? "4px" : "calc(50%)" }}
             />
             <button
@@ -600,16 +615,16 @@ export default function Signup() {
           {activeTab === "signin" ? <SigninForm /> : <SignupForm />}
 
           {/* Footer toggle */}
-          <div className="mt-3 text-center text-xs text-gray-500">
+          <div className="mt-3 text-center text-sm  text-gray-500 ">
             {activeTab === "signin" ? (
               <>
                 Don&apos;t have an account?{" "}
                 <button
                   type="button"
                   onClick={() => setActiveTab("signup")}
-                  className="text-[#008B8B] font-bold hover:underline"
+                  className="text-[#008B8B] font-bold hover:cursor-pointer"
                 >
-                  Sign Up
+                  Sign up
                 </button>
               </>
             ) : (
@@ -618,9 +633,9 @@ export default function Signup() {
                 <button
                   type="button"
                   onClick={() => setActiveTab("signin")}
-                  className="text-[#008B8B] font-bold hover:underline"
+                  className="text-[#008B8B] font-bold hover:cursor-pointer"
                 >
-                  Sign In
+                  Sign in
                 </button>
               </>
             )}
