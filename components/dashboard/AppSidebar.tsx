@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import {
   BrainCircuit,
+  CircleUserRound,
   ClipboardList,
   LayoutDashboard,
   LogOut,
@@ -122,8 +123,8 @@ Clinical Intelligence                </span>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" className="cursor-default">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
-                {user?.fullname?.charAt(0)?.toUpperCase() ?? "U"}
+              <div className="flex size-8 shrink-0 items-center justify-center">
+<CircleUserRound size={8} />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">

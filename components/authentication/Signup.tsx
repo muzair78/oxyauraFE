@@ -94,24 +94,56 @@ function SignupForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!validate()) return;
+
     setIsLoading(true);
     setErrors({});
+
     try {
       const payload = {
         fullname: formData.name,
         email: formData.email,
         password: formData.password,
       };
+
       const response = await api.post("/auth/signup", payload);
+
       console.log("Signup response:", response.data);
-      setIsSuccess(true);
+
+      if (response.status >= 200 && response.status < 300) {
+        const successMessage =
+          response.data?.message || "Account created successfully!";
+
+        toast.success(successMessage, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          style: {
+            borderRadius: "12px",
+            background: "#ffffff",
+            color: "#334155",
+            fontSize: "14px",
+            fontWeight: "500",
+            boxShadow:
+              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+          },
+        });
+
+        setIsSuccess(true);
+      }
     } catch (err: any) {
       console.error("Signup error:", err);
+
       const errorMessage =
         err?.response?.data?.detail ||
         err?.response?.data?.message ||
         "Something went wrong. Please try again.";
+
       toast.error(errorMessage, {
         position: "top-right",
         autoClose: 4000,
@@ -119,8 +151,7 @@ function SignupForm() {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
-        theme: "light", // Change to "dark" if your app uses dark mode
+        theme: "light",
         style: {
           borderRadius: "12px",
           background: "#ffffff",
@@ -131,6 +162,7 @@ function SignupForm() {
             "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
         },
       });
+
       setErrors({ general: errorMessage });
     } finally {
       setIsLoading(false);
@@ -197,11 +229,10 @@ function SignupForm() {
           value={formData.name}
           onChange={handleChange}
           placeholder="Enter your name"
-          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
-            errors.name
-              ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-              : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-          }`}
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${errors.name
+            ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+            : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+            }`}
         />
         <div className="h-4 flex items-center overflow-hidden">
           {errors.name && (
@@ -228,11 +259,10 @@ function SignupForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
-            errors.email
-              ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-              : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-          }`}
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${errors.email
+            ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+            : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+            }`}
         />
         <div className="h-4 flex items-center overflow-hidden">
           {errors.email && (
@@ -262,11 +292,10 @@ function SignupForm() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Min. 6 characters"
-              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
-                errors.password
-                  ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-                  : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-              }`}
+              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${errors.password
+                ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+                : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+                }`}
             />
             <button
               type="button"
@@ -308,11 +337,10 @@ function SignupForm() {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Confirm password"
-              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
-                errors.confirmPassword
-                  ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-                  : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-              }`}
+              className={`h-9 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${errors.confirmPassword
+                ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+                : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+                }`}
             />
             <button
               type="button"
@@ -390,19 +418,60 @@ function SigninForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!validate()) return;
+
     setIsLoading(true);
     setErrors({});
+
     try {
       const response = await api.post<AuthData>("/auth/signin", formData);
+
       saveAuth(response.data);
+
+      // Success message from backend
+      const successMessage =
+        response.data?.message || "Login successful!";
+
+      toast.success(successMessage, {
+        position: "top-right",
+        autoClose: 4000,
+        theme: "light",
+        style: {
+          borderRadius: "12px",
+          background: "#ffffff",
+          color: "#334155",
+          fontSize: "14px",
+          fontWeight: "500",
+        },
+      });
+
       router.replace("/dashboard");
+
     } catch (err: any) {
+      console.error("Signin error:", err);
+
+      // Error message from backend
       const message =
         err?.response?.data?.detail ||
         err?.response?.data?.message ||
         "Invalid credentials. Please try again.";
+
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 4000,
+        theme: "light",
+        style: {
+          borderRadius: "12px",
+          background: "#ffffff",
+          color: "#334155",
+          fontSize: "14px",
+          fontWeight: "500",
+        },
+      });
+
       setErrors({ general: message });
+
     } finally {
       setIsLoading(false);
     }
@@ -439,11 +508,10 @@ function SigninForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className={`h-9 border bg-white px-3 text-xs outline-none transition ${
-            errors.email
-              ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-              : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-          }`}
+          className={`h-9 border bg-white px-3 text-xs outline-none transition ${errors.email
+            ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+            : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+            }`}
         />
         <div className="h-4 flex items-center overflow-hidden">
           {errors.email && (
@@ -479,11 +547,10 @@ function SigninForm() {
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter your password"
-            className={`h-8.5 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${
-              errors.password
-                ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
-                : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
-            }`}
+            className={`h-8.5 w-full border bg-white pl-3 pr-8 text-xs outline-none transition ${errors.password
+              ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200"
+              : "border-gray-300 focus:border-[#008B8B] focus:ring-1 focus:ring-[#008B8B]/20"
+              }`}
           />
           <button
             type="button"
@@ -559,8 +626,8 @@ export default function Signup() {
             <Image
               src={logo}
               alt="Oxyaura AI Logo"
-              width={96}
-              height={96}
+              width={100}
+              height={100}
               priority
             />
           </div>
@@ -576,11 +643,10 @@ export default function Signup() {
               id="tab-signin"
               type="button"
               onClick={() => setActiveTab("signin")}
-              className={`relative z-10 flex-1 h-8 rounded-md text-xs font-bold transition-colors duration-300 hover:cursor-pointer ${
-                activeTab === "signin"
-                  ? "text-white"
-                  : "text-gray-600 hover:text-gray-800"
-              }`}
+              className={`relative z-10 flex-1 h-8 rounded-md text-xs font-bold transition-colors duration-300 hover:cursor-pointer ${activeTab === "signin"
+                ? "text-white"
+                : "text-gray-600 hover:text-gray-800"
+                }`}
             >
               Sign In
             </button>
@@ -588,11 +654,10 @@ export default function Signup() {
               id="tab-signup"
               type="button"
               onClick={() => setActiveTab("signup")}
-              className={`relative z-10 flex-1 h-8 rounded-md text-xs font-bold transition-colors duration-300 hover:cursor-pointer ${
-                activeTab === "signup"
-                  ? "text-white"
-                  : "text-gray-600 hover:text-gray-800"
-              }`}
+              className={`relative z-10 flex-1 h-8 rounded-md text-xs font-bold transition-colors duration-300 hover:cursor-pointer ${activeTab === "signup"
+                ? "text-white"
+                : "text-gray-600 hover:text-gray-800"
+                }`}
             >
               Sign Up
             </button>
