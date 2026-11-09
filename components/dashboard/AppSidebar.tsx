@@ -87,7 +87,7 @@ export default function AppSidebar() {
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-bold text-2xl text-primary">Oxyaura AI</span>
                 <span className="truncate text-md font-medium text-gray-700 tracking-widest">
-Clinical Intelligence                </span>
+                  Clinical Intelligence                </span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -98,18 +98,18 @@ Clinical Intelligence                </span>
 
       <SidebarContent>
         <SidebarGroup>
-          
+
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
-                  className={"text-lg font-light"}
+                    className={"text-lg font-light"}
                     isActive={pathname === item.href}
                     tooltip={item.title}
                     render={<Link href={item.href} />}
                   >
-<item.icon className="!w-5 !h-5 mr-2" />
+                    <item.icon className="!w-5 !h-5 mr-2" />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -122,22 +122,19 @@ Clinical Intelligence                </span>
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" className="cursor-default">
-              <div className="flex size-8 shrink-0 items-center justify-center">
-<CircleUserRound size={8} />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
+            <SidebarMenuButton size="lg" className="cursor-default hover:cursor-pointer">
+              <div className="grid flex-1 text-left leading-tight">
+                <span className="truncate font-medium text-sm">
                   {user?.fullname ?? "User"}
                 </span>
-                <span className="truncate text-xs text-muted-foreground">
+                <span className="truncate text-sm text-muted-foreground">
                   {user?.email ?? ""}
                 </span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Log out" onClick={handleLogout}>
+            <SidebarMenuButton className="hover:cursor-pointer text-sm md:text-md" tooltip="Log out" onClick={handleLogout}>
               <LogOut />
               <span>Log out</span>
             </SidebarMenuButton>
